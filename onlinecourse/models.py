@@ -94,6 +94,21 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
+#Question
+class Question(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+    grade_point = models.IntegerField(default=50)
+
+    # method to calculate if the learner gets the score of the question
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
+
 
 # One enrollment could have multiple submission
 # One submission could have multiple choices
