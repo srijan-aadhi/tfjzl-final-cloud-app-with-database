@@ -110,14 +110,14 @@ class Question(models.Model):
             return False
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=model.CASCADE)
-    text = model.CharField(max_length=200)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
     is_correct = models.BooleanField(default=False)
 
 
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-#class Submission(models.Model):
-#    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-#    choices = models.ManyToManyField(Choice)
+class Submission(models.Model):
+   enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+   choices = models.ManyToManyField(Choice)
